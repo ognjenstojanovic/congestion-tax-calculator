@@ -34,14 +34,9 @@ namespace congestion_tax_calculator_net_core
         
         public decimal GetPrice(DateTime date)
         {
-            int hour = date.Hour;
-            int minute = date.Minute;
 
-            var correspondingRule = _taxRules.FirstOrDefault(r =>
-                (hour == r.StartHour && hour == r.EndHour && minute >= r.StartMinutes && minute <= r.EndMinutes) ||
-                (hour > r.StartHour && hour < r.EndHour) ||
-                (hour > r.StartHour && hour <= r.EndHour && minute <= r.EndMinutes) ||
-                (hour == r.StartHour && minute > r.StartMinutes && hour < r.EndHour));
+            var correspondingRule = _taxRules
+                .FirstOrDefault(r => date >= r.GetStartDate(date) && date <= r.GetEndDate(date));
             
             return correspondingRule?.Fee ?? 0;
         }

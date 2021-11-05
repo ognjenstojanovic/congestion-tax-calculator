@@ -20,5 +20,21 @@ namespace congestion_tax_calculator.Model
         public int EndHour => int.Parse(EndTime.Split(":")[0]);
         
         public int EndMinutes => int.Parse(EndTime.Split(":")[1]);
+        
+        public DateTime GetStartDate(DateTime d)
+        {
+            var date = new DateTime(d.Year, d.Month, d.Day);
+            date = date.AddHours(StartHour);
+            date = date.AddMinutes(StartMinutes);
+            return date;
+        }
+        
+        public DateTime GetEndDate(DateTime d)
+        {
+            var date = new DateTime(d.Year, d.Month, d.Day);
+            date = date.AddHours(EndHour);
+            date = date.AddMinutes(EndMinutes);
+            return date;
+        }
     }
 }
